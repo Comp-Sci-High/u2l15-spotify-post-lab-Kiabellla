@@ -29,7 +29,7 @@ async function createPlaylist(playlistData) {
   const options = {
     method: 'POST',
     headers: {
-      Authorization: "Bearer BQCbCUQNADA28SeT0V2vvTf1Rc-ZHbaX_xk4BRifyQBzSfwYJMgj6o-M-85Qv3jZZDc8wqIpfgwPBykDWvJTGlH1OKbqY6sNWYRNFgUD2smcSqWMpVpp7FqXUrELoofkTWIqJwRpCiMB_apQnBOwURZK88Hg2RsKQExwQ8Lf4zImJnE1agLOiSFcEnGfVlQHGdiscjng059EDeQHWNsaJhkBQBRix5huQEIruMZyvhxjxB6IyWm4LSUcfJ0uUU-Vf3GDFNw0sQoALpoweGvXHvGP-SVUXWFhx-7DOt1Xd1xR",
+      Authorization: "Bearer BQC32GbzqmvMIogU_OpuENr1Py49NCEWLwTqQIQWEKPoDYzgYT_nv-tKq2Ptfaldmg2GSgw9Q7ziGgQ-RgN7UZq01ZwV9VVFx5z2snCGB_iggNDPgjJISJF5rb-xjEw2YWa6t2H95qt2829dglnYjOpp9ucqKcmEyiwdqt08wqMs2IAG2Jk9r6vfBJ0nE75eTbHT7e4VjCijUiQq_Be6iKktZlKaYaSICt0h9PTzaCkz9--dxr4L3ciKrcE5qGoRLs7Vn-RIMkXp6mV_oNBdpHMZ9SLBf1gnjHQijgsRTU4I",
       "Content-Type": 'application/json'
     },
       body: JSON.stringify(playlistData)
@@ -62,18 +62,22 @@ let addingSongsURL = "https://api.spotify.com/v1/playlists/4N6r8CiG3GNaZZy6Y7RTz
 //    - Find the track id from the songs URL after track/ but before the queries
 //    - Ex: https://open.spotify.com/track/6a6JDEQbXdxkWFRIA0pRqL?si=e9e0c29125a746f6 => spotify:track:6a6JDEQbXdxkWFRIA0pRqL
 
-const songs = ["spotify:track:6I86RF3odBlcuZA9Vfjzeq","spotify:track:6I86RF3odBlcuZA9Vfjzeq","spotify:track:6I86RF3odBlcuZA9Vfjzeq","spotify:track:6I86RF3odBlcuZA9Vfjzeq"];
+const songs = [
+  "spotify:track:6I86RF3odBlcuZA9Vfjzeq",
+  "spotify:track:6I86RF3odBlcuZA9Vfjzeq",
+  "spotify:track:6I86RF3odBlcuZA9Vfjzeq",
+  "spotify:track:6I86RF3odBlcuZA9Vfjzeq"]
 
 // 3. The documentation describes how to create the request body. Using that information update the object below called `newSongsBody`
 // Add the array `songs` into this object
 
 const newSongsBody = {
-
+  uris: songs
 };
 
 // 4. Add `songData` as a parameter to the asynchronous function `addPlaylistSongs`.
 
-async function addPlaylistSongs() {
+async function addPlaylistSongs(songData) {
 
   // 5. Inside the function build out the options object.
   //    - Set the HTTP Method
@@ -81,11 +85,23 @@ async function addPlaylistSongs() {
   //    - Add the `newSongsBody` object into the body, make sure you stringify it
 
   const options = {
-    
+    method: 'POST',
+    headers: {
+      Authorization: 'Bearer BQC32GbzqmvMIogU_OpuENr1Py49NCEWLwTqQIQWEKPoDYzgYT_nv-tKq2Ptfaldmg2GSgw9Q7ziGgQ-RgN7UZq01ZwV9VVFx5z2snCGB_iggNDPgjJISJF5rb-xjEw2YWa6t2H95qt2829dglnYjOpp9ucqKcmEyiwdqt08wqMs2IAG2Jk9r6vfBJ0nE75eTbHT7e4VjCijUiQq_Be6iKktZlKaYaSICt0h9PTzaCkz9--dxr4L3ciKrcE5qGoRLs7Vn-RIMkXp6mV_oNBdpHMZ9SLBf1gnjHQijgsRTU4I',
+      "Content-Type": 'application/json'
+    },
+    body: JSON.stringify(songData)
   };
 
   // 6. Use fetch() to send a POST request using the `addingSongsURL` and options object. Console log the response.
+const response = await fetch(addingSongsURL, options)
+
+const data = await response.json()
+console.log(data)
+return data
 }
+
 
 // 7. Call your function `addPlaylistSongs` with `newSongsBody` passed as the parameter.
 // Refresh the page to your playlist, you should see your 3 new songs.
+addPlaylistSongs(newSongsBody)
